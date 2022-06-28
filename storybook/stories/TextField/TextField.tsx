@@ -1,36 +1,71 @@
-import {
-	Icon,
-	IIconProps,
-	IInputProps,
-	Input,
-	Stack,
-	Text,
-	View,
-} from 'native-base';
+import { Icon, IInputProps, Input, Stack, Text, View } from 'native-base';
 import { colors } from '../../../theme/colors';
 import React from 'react';
+import { StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 interface TextFieldProps extends IInputProps {
-	label?: string;
-	isInvalid?: boolean;
+	/**
+	 * whether the input is disabled
+	 */
 	isDisabled?: boolean;
-	errorMessage?: string;
+	/**
+	 * whether the input is invalid
+	 */
+	isInvalid?: boolean;
+	/**
+	 * display left icon
+	 */
 	leftIcon?: JSX.Element;
+	/**
+	 * display right icon
+	 */
 	rightIcon?: JSX.Element;
+	/**
+	 * style attribute of text input
+	 */
+	inputStyle?: StyleProp<TextStyle>;
+	/**
+	 * label of text input
+	 */
+	label?: string;
+	/**
+	 * style attribute of label
+	 */
+	labelStyle?: StyleProp<TextStyle>;
+	/**
+	 * error message
+	 */
+	errorMessage?: string;
+	/**
+	 * style attribute of error message
+	 */
+	errorMessageStyle?: StyleProp<TextStyle>;
+	/**
+	 * style attribute of container
+	 */
+	containerStyle?: StyleProp<ViewStyle>;
 }
 
 export const TextField: React.FC<TextFieldProps> = ({
-	label,
-	leftIcon,
-	rightIcon,
 	isInvalid = false,
 	isDisabled = false,
+	leftIcon,
+	rightIcon,
+	inputStyle,
+	label,
+	labelStyle,
 	errorMessage,
+	errorMessageStyle,
+	containerStyle,
 	...props
 }) => {
 	return (
-		<Stack space={'4px'}>
-			{label && <Text fontSize={'14px'}>{label}</Text>}
+		<Stack space={'4px'} style={containerStyle}>
+			{label && (
+				<Text style={labelStyle} fontSize={'14px'}>
+					{label}
+				</Text>
+			)}
 			<View
 				bg={colors.white}
 				borderRadius={'5px'}
@@ -45,6 +80,7 @@ export const TextField: React.FC<TextFieldProps> = ({
 				}}
 			>
 				<Input
+					style={inputStyle}
 					InputLeftElement={
 						leftIcon && (
 							<Icon
@@ -91,7 +127,7 @@ export const TextField: React.FC<TextFieldProps> = ({
 				/>
 			</View>
 			{!isDisabled && isInvalid && errorMessage && (
-				<Text color={'error.500'} fontSize={'12px'}>
+				<Text style={errorMessageStyle} color={'error.500'} fontSize={'12px'}>
 					{errorMessage}
 				</Text>
 			)}
